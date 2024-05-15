@@ -1,0 +1,16 @@
+# https://github.com/kubernetes-sigs/descheduler/blob/master/charts/descheduler/values.yaml
+
+%{~ if length(common_labels) > 0 }
+%{~ for lbl_key, lbl_value in common_labels }
+commonLabels:
+  ${lbl_key}: "${lbl_value}"
+%{~ endfor ~}
+%{~ endif ~}
+
+deschedulerPolicy:
+  %{~ if node_selector_labels_string != "" ~}
+  nodeSelector: "${node_selector_labels_string}"
+  %{~ endif ~}
+  strategies:    
+    LowNodeUtilization:
+      enabled: ${low_node_utilization_enabled}
