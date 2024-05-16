@@ -4,8 +4,7 @@ locals {
     var.k8s_additional_labels,
   )
 
-  final_namespace = var.create_namespace ? resource.kubernetes_namespace_v1.this[0].metadata[0].name : data.kubernetes_namespace_v1.this[0].metadata[0].name
-
+  final_namespace             = var.create_namespace ? resource.kubernetes_namespace_v1.this[0].metadata[0].name : data.kubernetes_namespace_v1.this[0].metadata[0].name
   node_selector_labels_string = var.node_selector_labels == null ? "" : join(",", [for k, v in var.node_selector_labels : "${k}=${v}"])
 }
 
@@ -15,8 +14,8 @@ resource "kubernetes_namespace_v1" "this" {
   metadata {
     name = var.namespace
     labels = merge(
-      local.k8s_full_labels,
       { name = var.namespace },
+      local.k8s_full_labels,
     )
   }
 }
@@ -36,14 +35,19 @@ resource "helm_release" "this" {
   version    = var.chart_version
   namespace  = local.final_namespace
 
-  values = [
-    templatefile(
-      "${path.module}/files/values.yaml.tftpl",
-      {
-        common_labels                = local.k8s_full_labels
-        node_selector_labels_string  = local.node_selector_labels_string
-        low_node_utilization_enabled = var.low_node_utilization_enabled
-      }
-    ),
-  ]
+  values = concat(
+    [
+      templatefile(
+        "${path.module}/files/values.yaml.tftpl",
+        {
+          common_labels                = local.k8s_full_labels
+          node_selector_labels_string  = local.node_selector_labels_string
+          low_node_utilization_enabled = var.low_node_utilization_enabled
+          service_monitor_enabled      = var.service_monitor_enabled
+          service_monitor_namespace    = var.service_monitor_namespace
+        }
+      ),
+    ],
+    var.additional_values
+  )
 }

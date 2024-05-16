@@ -2,6 +2,8 @@
 
 This module installs [Descheduler](https://github.com/kubernetes-sigs/descheduler/) using the official [Helm Chart](https://github.com/kubernetes-sigs/descheduler/tree/master/charts/descheduler) in a Kubernetes cluster.
 
+In this module, we have created simple Terraform variables to easily configure some features of the Descheduler. For example, you can filter the monitored nodes by labels, using the most used syntax for selector labels and you can turn on/off the low node utilization strategy. For the full list of available variables, please check the [Inputs](#inputs) section below.
+
 <!-- BEGIN_TF_DOCS -->
 ## Providers
 
@@ -22,6 +24,7 @@ This module installs [Descheduler](https://github.com/kubernetes-sigs/deschedule
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_additional_values"></a> [additional\_values](#input\_additional\_values) | Additional values to pass to the helm chart. | `list(string)` | `[]` | no |
 | <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Chart version to install. | `string` | `"0.29.0"` | no |
 | <a name="input_create_namespace"></a> [create\_namespace](#input\_create\_namespace) | Create namespace for the ingress controller. If false, the namespace must be created before using this module. | `bool` | `true` | no |
 | <a name="input_helm_release_name"></a> [helm\_release\_name](#input\_helm\_release\_name) | Name of the helm release. | `string` | `"descheduler"` | no |
@@ -30,6 +33,8 @@ This module installs [Descheduler](https://github.com/kubernetes-sigs/deschedule
 | <a name="input_low_node_utilization_enabled"></a> [low\_node\_utilization\_enabled](#input\_low\_node\_utilization\_enabled) | Enable low node utilization descheduler strategy. | `bool` | `true` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace to install the descheduler. | `string` | `"descheduler"` | no |
 | <a name="input_node_selector_labels"></a> [node\_selector\_labels](#input\_node\_selector\_labels) | Node selector labels used by descheduler for limit pod eviction in selected nodes. | `map(string)` | `{}` | no |
+| <a name="input_service_monitor_enabled"></a> [service\_monitor\_enabled](#input\_service\_monitor\_enabled) | Enable Prometheus service monitor. | `bool` | `false` | no |
+| <a name="input_service_monitor_namespace"></a> [service\_monitor\_namespace](#input\_service\_monitor\_namespace) | Service monitor namespace. | `string` | `""` | no |
 
 ## Outputs
 
