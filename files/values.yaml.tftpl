@@ -14,3 +14,9 @@ deschedulerPolicy:
   strategies:    
     LowNodeUtilization:
       enabled: ${low_node_utilization_enabled}
+
+%{~ if service_monitor_enabled }
+serviceMonitor:
+  enabled: ${service_monitor_enabled}
+  namespace: "${service_monitor_namespace}"
+%{~ endif ~}

@@ -8,6 +8,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0] - 2024-05-16
+
+[Compare with previous version](https://github.com/sparkfabrik/terraform-helm-descheduler/compare/0.1.0...0.2.0)
+
+### Added
+
+- Add `ServiceMonitor` configuration for Prometheus.
+- Add `additional_values` variable to allow customizing the Helm chart values.
+
 ## [0.1.0] - 2024-05-15
 
 - First release.
