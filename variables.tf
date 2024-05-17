@@ -1,5 +1,5 @@
 variable "create_namespace" {
-  description = "Create namespace for the ingress controller. If false, the namespace must be created before using this module."
+  description = "Create namespace for the descheduler application. If false, the namespace must be created before using this module."
   type        = bool
   default     = true
 }

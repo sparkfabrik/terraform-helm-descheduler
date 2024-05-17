@@ -26,7 +26,7 @@ In this module, we have created simple Terraform variables to easily configure s
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_values"></a> [additional\_values](#input\_additional\_values) | Additional values to pass to the helm chart. | `list(string)` | `[]` | no |
 | <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Chart version to install. | `string` | `"0.29.0"` | no |
-| <a name="input_create_namespace"></a> [create\_namespace](#input\_create\_namespace) | Create namespace for the ingress controller. If false, the namespace must be created before using this module. | `bool` | `true` | no |
+| <a name="input_create_namespace"></a> [create\_namespace](#input\_create\_namespace) | Create namespace for the descheduler application. If false, the namespace must be created before using this module. | `bool` | `true` | no |
 | <a name="input_helm_release_name"></a> [helm\_release\_name](#input\_helm\_release\_name) | Name of the helm release. | `string` | `"descheduler"` | no |
 | <a name="input_k8s_additional_labels"></a> [k8s\_additional\_labels](#input\_k8s\_additional\_labels) | Set of additional labels to apply to all resources. | `map(string)` | `{}` | no |
 | <a name="input_k8s_labels"></a> [k8s\_labels](#input\_k8s\_labels) | Set of labels to apply to all resources. | `map(string)` | <pre>{<br>  "managed-by": "terraform"<br>}</pre> | no |
