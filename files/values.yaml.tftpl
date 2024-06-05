@@ -1,5 +1,10 @@
 # https://github.com/kubernetes-sigs/descheduler/blob/master/charts/descheduler/values.yaml
 
+resources:
+  requests:
+    cpu: 100m
+    memory: 64Mi
+
 %{~ if length(common_labels) > 0 }
 %{~ for lbl_key, lbl_value in common_labels }
 commonLabels:
