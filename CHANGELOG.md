@@ -8,6 +8,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.0] - 2024-06-05
+
+[Compare with previous version](https://github.com/sparkfabrik/terraform-helm-descheduler/compare/0.2.0...0.3.0)
+
+### Added
+
+- Add `resources.requests.cpu` and `resources.requests.memory` default values in the Helm chart values.
+
 ## [0.2.0] - 2024-05-16
 
 [Compare with previous version](https://github.com/sparkfabrik/terraform-helm-descheduler/compare/0.1.0...0.2.0)
