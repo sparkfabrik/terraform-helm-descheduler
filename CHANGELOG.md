@@ -15,11 +15,18 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 - Add `topology_spread_constraints` variable to balance `ScheduleAnyway` topology spread constraints too.
+- Add `node_fit` variable to evict a pod only when it fits on another node.
+- Add `max_pods_to_evict_per_node` variable to limit evictions per node in each run.
 
 ### Changed
 
-- Render the descheduler policy with the `descheduler/v1alpha2` API, required by descheduler 0.31.0 and later.
-- Update the default chart version to 0.35.1.
+- **Breaking:** render the descheduler policy with the `descheduler/v1alpha2` API, required by descheduler 0.31.0 and later. The module now requires chart 0.27.0 or later.
+- Update the default chart version to 0.35.1. Chart 0.35.1 also sets default resource limits (500m CPU, 256Mi memory).
+- Keep the previous eviction protections: pods with local storage stay protected and pods with PVCs stay evictable, unlike the chart 0.35.1 defaults.
+
+### Fixed
+
+- Render all `commonLabels` entries: only the last label was applied when more than one was set.
 
 ## [0.3.0] - 2024-06-05
 

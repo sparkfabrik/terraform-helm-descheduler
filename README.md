@@ -2,15 +2,15 @@
 
 This module installs [Descheduler](https://github.com/kubernetes-sigs/descheduler/) using the official [Helm Chart](https://github.com/kubernetes-sigs/descheduler/tree/master/charts/descheduler) in a Kubernetes cluster.
 
-In this module, we have created simple Terraform variables to easily configure some features of the Descheduler. For example, you can filter the monitored nodes by labels, using the most used syntax for selector labels and you can turn on/off the low node utilization strategy. For the full list of available variables, please check the [Inputs](#inputs) section below.
+In this module, we have created simple Terraform variables to easily configure some features of the Descheduler. For example, you can filter the monitored nodes by labels, turn on/off the low node utilization strategy, choose which topology spread constraints to balance, and limit evictions with node fit and a per-node maximum. The module renders a `descheduler/v1alpha2` policy, so it requires descheduler chart 0.27.0 or later. For the full list of available variables, please check the [Inputs](#inputs) section below.
 
 <!-- BEGIN_TF_DOCS -->
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_helm"></a> [helm](#provider\_helm) | >= 2.0 |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.0 |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | 3.3.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 3.4.0 |
 
 ## Requirements
 
@@ -31,7 +31,9 @@ In this module, we have created simple Terraform variables to easily configure s
 | <a name="input_k8s_additional_labels"></a> [k8s\_additional\_labels](#input\_k8s\_additional\_labels) | Set of additional labels to apply to all resources. | `map(string)` | `{}` | no |
 | <a name="input_k8s_labels"></a> [k8s\_labels](#input\_k8s\_labels) | Set of labels to apply to all resources. | `map(string)` | <pre>{<br>  "managed-by": "terraform"<br>}</pre> | no |
 | <a name="input_low_node_utilization_enabled"></a> [low\_node\_utilization\_enabled](#input\_low\_node\_utilization\_enabled) | Enable low node utilization descheduler strategy. | `bool` | `true` | no |
+| <a name="input_max_pods_to_evict_per_node"></a> [max\_pods\_to\_evict\_per\_node](#input\_max\_pods\_to\_evict\_per\_node) | Maximum number of pods evicted per node in each descheduler run. Null means no limit. | `number` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace to install the descheduler. | `string` | `"descheduler"` | no |
+| <a name="input_node_fit"></a> [node\_fit](#input\_node\_fit) | Evict a pod only when it fits on another node, through the nodeFit argument of the DefaultEvictor plugin. | `bool` | `false` | no |
 | <a name="input_node_selector_labels"></a> [node\_selector\_labels](#input\_node\_selector\_labels) | Node selector labels used by descheduler for limit pod eviction in selected nodes. | `map(string)` | `{}` | no |
 | <a name="input_service_monitor_enabled"></a> [service\_monitor\_enabled](#input\_service\_monitor\_enabled) | Enable Prometheus service monitor. | `bool` | `false` | no |
 | <a name="input_service_monitor_namespace"></a> [service\_monitor\_namespace](#input\_service\_monitor\_namespace) | Service monitor namespace. | `string` | `""` | no |
