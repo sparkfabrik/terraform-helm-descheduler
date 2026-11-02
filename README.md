@@ -25,7 +25,7 @@ In this module, we have created simple Terraform variables to easily configure s
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_values"></a> [additional\_values](#input\_additional\_values) | Additional values to pass to the helm chart. | `list(string)` | `[]` | no |
-| <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Chart version to install. | `string` | `"0.29.0"` | no |
+| <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Chart version to install. | `string` | `"0.35.1"` | no |
 | <a name="input_create_namespace"></a> [create\_namespace](#input\_create\_namespace) | Create namespace for the descheduler application. If false, the namespace must be created before using this module. | `bool` | `true` | no |
 | <a name="input_helm_release_name"></a> [helm\_release\_name](#input\_helm\_release\_name) | Name of the helm release. | `string` | `"descheduler"` | no |
 | <a name="input_k8s_additional_labels"></a> [k8s\_additional\_labels](#input\_k8s\_additional\_labels) | Set of additional labels to apply to all resources. | `map(string)` | `{}` | no |
@@ -35,6 +35,7 @@ In this module, we have created simple Terraform variables to easily configure s
 | <a name="input_node_selector_labels"></a> [node\_selector\_labels](#input\_node\_selector\_labels) | Node selector labels used by descheduler for limit pod eviction in selected nodes. | `map(string)` | `{}` | no |
 | <a name="input_service_monitor_enabled"></a> [service\_monitor\_enabled](#input\_service\_monitor\_enabled) | Enable Prometheus service monitor. | `bool` | `false` | no |
 | <a name="input_service_monitor_namespace"></a> [service\_monitor\_namespace](#input\_service\_monitor\_namespace) | Service monitor namespace. | `string` | `""` | no |
+| <a name="input_topology_spread_constraints"></a> [topology\_spread\_constraints](#input\_topology\_spread\_constraints) | Topology spread constraint types balanced by the RemovePodsViolatingTopologySpreadConstraint plugin. Add ScheduleAnyway to balance soft constraints too. | `list(string)` | <pre>[<br>  "DoNotSchedule"<br>]</pre> | no |
 
 ## Outputs
 

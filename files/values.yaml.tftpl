@@ -12,13 +12,56 @@ commonLabels:
 %{~ endfor ~}
 %{~ endif ~}
 
+deschedulerPolicyAPIVersion: "descheduler/v1alpha2"
+
 deschedulerPolicy:
   %{~ if node_selector_labels_string != "" ~}
   nodeSelector: "${node_selector_labels_string}"
   %{~ endif ~}
-  strategies:    
-    LowNodeUtilization:
-      enabled: ${low_node_utilization_enabled}
+  profiles:
+    - name: default
+      pluginConfig:
+        - name: DefaultEvictor
+        - name: RemoveDuplicates
+        - name: RemovePodsHavingTooManyRestarts
+          args:
+            podRestartThreshold: 100
+            includingInitContainers: true
+        - name: RemovePodsViolatingNodeAffinity
+          args:
+            nodeAffinityType:
+              - requiredDuringSchedulingIgnoredDuringExecution
+        - name: RemovePodsViolatingNodeTaints
+        - name: RemovePodsViolatingInterPodAntiAffinity
+        - name: RemovePodsViolatingTopologySpreadConstraint
+          args:
+            constraints: ${jsonencode(topology_spread_constraints)}
+        %{~ if low_node_utilization_enabled ~}
+        - name: LowNodeUtilization
+          args:
+            thresholds:
+              cpu: 20
+              memory: 20
+              pods: 20
+            targetThresholds:
+              cpu: 50
+              memory: 50
+              pods: 50
+        %{~ endif ~}
+      plugins:
+        balance:
+          enabled:
+            - RemoveDuplicates
+            - RemovePodsViolatingTopologySpreadConstraint
+            %{~ if low_node_utilization_enabled ~}
+            - LowNodeUtilization
+            %{~ endif ~}
+        deschedule:
+          enabled:
+            - RemovePodsHavingTooManyRestarts
+            - RemovePodsViolatingNodeTaints
+            - RemovePodsViolatingNodeAffinity
+            - RemovePodsViolatingInterPodAntiAffinity
 
 %{~ if service_monitor_enabled }
 serviceMonitor:

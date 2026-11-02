@@ -19,7 +19,7 @@ variable "helm_release_name" {
 variable "chart_version" {
   description = "Chart version to install."
   type        = string
-  default     = "0.29.0"
+  default     = "0.35.1"
 }
 
 variable "additional_values" {
@@ -52,6 +52,17 @@ variable "low_node_utilization_enabled" {
   description = "Enable low node utilization descheduler strategy."
   type        = bool
   default     = true
+}
+
+variable "topology_spread_constraints" {
+  description = "Topology spread constraint types balanced by the RemovePodsViolatingTopologySpreadConstraint plugin. Add ScheduleAnyway to balance soft constraints too."
+  type        = list(string)
+  default     = ["DoNotSchedule"]
+
+  validation {
+    condition     = length(var.topology_spread_constraints) > 0 && alltrue([for c in var.topology_spread_constraints : contains(["DoNotSchedule", "ScheduleAnyway"], c)])
+    error_message = "Allowed values are DoNotSchedule and ScheduleAnyway."
+  }
 }
 
 variable "service_monitor_enabled" {

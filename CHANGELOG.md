@@ -8,6 +8,19 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-02
+
+[Compare with previous version](https://github.com/sparkfabrik/terraform-helm-descheduler/compare/0.3.0...0.4.0)
+
+### Added
+
+- Add `topology_spread_constraints` variable to balance `ScheduleAnyway` topology spread constraints too.
+
+### Changed
+
+- Render the descheduler policy with the `descheduler/v1alpha2` API, required by descheduler 0.31.0 and later.
+- Update the default chart version to 0.35.1.
+
 ## [0.3.0] - 2024-06-05
 
 [Compare with previous version](https://github.com/sparkfabrik/terraform-helm-descheduler/compare/0.2.0...0.3.0)
