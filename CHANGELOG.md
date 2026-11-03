@@ -8,7 +8,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-## [0.4.0] - 2026-11-02
+## [0.4.0] - 2026-11-03
 
 [Compare with previous version](https://github.com/sparkfabrik/terraform-helm-descheduler/compare/0.3.0...0.4.0)
 
