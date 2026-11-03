@@ -9,8 +9,8 @@ In this module, we have created simple Terraform variables to easily configure s
 
 | Name | Version |
 |------|---------|
-| <a name="provider_helm"></a> [helm](#provider\_helm) | 3.3.0 |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 3.4.0 |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | >= 2.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.0 |
 
 ## Requirements
 
