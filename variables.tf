@@ -19,7 +19,7 @@ variable "helm_release_name" {
 variable "chart_version" {
   description = "Chart version to install."
   type        = string
-  default     = "0.29.0"
+  default     = "0.35.1"
 }
 
 variable "additional_values" {
@@ -52,6 +52,34 @@ variable "low_node_utilization_enabled" {
   description = "Enable low node utilization descheduler strategy."
   type        = bool
   default     = true
+}
+
+variable "topology_spread_constraints" {
+  description = "Topology spread constraint types balanced by the RemovePodsViolatingTopologySpreadConstraint plugin. Add ScheduleAnyway to balance soft constraints too."
+  type        = list(string)
+  default     = ["DoNotSchedule"]
+
+  validation {
+    condition     = length(var.topology_spread_constraints) > 0 && length(distinct(var.topology_spread_constraints)) == length(var.topology_spread_constraints) && alltrue([for c in var.topology_spread_constraints : contains(["DoNotSchedule", "ScheduleAnyway"], c)])
+    error_message = "Set at least one of DoNotSchedule and ScheduleAnyway, without duplicates."
+  }
+}
+
+variable "node_fit" {
+  description = "Evict a pod only when it fits on another node, through the nodeFit argument of the DefaultEvictor plugin."
+  type        = bool
+  default     = false
+}
+
+variable "max_pods_to_evict_per_node" {
+  description = "Maximum number of pods evicted per node in each descheduler run. Null means no limit."
+  type        = number
+  default     = null
+
+  validation {
+    condition     = var.max_pods_to_evict_per_node == null || try(var.max_pods_to_evict_per_node >= 1 && floor(var.max_pods_to_evict_per_node) == var.max_pods_to_evict_per_node, false)
+    error_message = "Set a whole number of at least 1, or null for no limit."
+  }
 }
 
 variable "service_monitor_enabled" {

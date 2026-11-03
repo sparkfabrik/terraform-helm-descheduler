@@ -6,19 +6,69 @@ resources:
     memory: 64Mi
 
 %{~ if length(common_labels) > 0 }
-%{~ for lbl_key, lbl_value in common_labels }
 commonLabels:
+%{~ for lbl_key, lbl_value in common_labels }
   ${lbl_key}: "${lbl_value}"
 %{~ endfor ~}
 %{~ endif ~}
+
+deschedulerPolicyAPIVersion: "descheduler/v1alpha2"
 
 deschedulerPolicy:
   %{~ if node_selector_labels_string != "" ~}
   nodeSelector: "${node_selector_labels_string}"
   %{~ endif ~}
-  strategies:    
-    LowNodeUtilization:
-      enabled: ${low_node_utilization_enabled}
+  %{~ if max_pods_to_evict_per_node != null ~}
+  maxNoOfPodsToEvictPerNode: ${max_pods_to_evict_per_node}
+  %{~ endif ~}
+  profiles:
+    - name: default
+      pluginConfig:
+        - name: DefaultEvictor
+          %{~ if node_fit ~}
+          args:
+            nodeFit: true
+          %{~ endif ~}
+        - name: RemoveDuplicates
+        - name: RemovePodsHavingTooManyRestarts
+          args:
+            podRestartThreshold: 100
+            includingInitContainers: true
+        - name: RemovePodsViolatingNodeAffinity
+          args:
+            nodeAffinityType:
+              - requiredDuringSchedulingIgnoredDuringExecution
+        - name: RemovePodsViolatingNodeTaints
+        - name: RemovePodsViolatingInterPodAntiAffinity
+        - name: RemovePodsViolatingTopologySpreadConstraint
+          args:
+            constraints: ${jsonencode(topology_spread_constraints)}
+        %{~ if low_node_utilization_enabled ~}
+        - name: LowNodeUtilization
+          args:
+            thresholds:
+              cpu: 20
+              memory: 20
+              pods: 20
+            targetThresholds:
+              cpu: 50
+              memory: 50
+              pods: 50
+        %{~ endif ~}
+      plugins:
+        balance:
+          enabled:
+            - RemoveDuplicates
+            - RemovePodsViolatingTopologySpreadConstraint
+            %{~ if low_node_utilization_enabled ~}
+            - LowNodeUtilization
+            %{~ endif ~}
+        deschedule:
+          enabled:
+            - RemovePodsHavingTooManyRestarts
+            - RemovePodsViolatingNodeTaints
+            - RemovePodsViolatingNodeAffinity
+            - RemovePodsViolatingInterPodAntiAffinity
 
 %{~ if service_monitor_enabled }
 serviceMonitor:

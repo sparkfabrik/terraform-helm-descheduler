@@ -43,6 +43,9 @@ resource "helm_release" "this" {
           common_labels                = local.k8s_full_labels
           node_selector_labels_string  = local.node_selector_labels_string
           low_node_utilization_enabled = var.low_node_utilization_enabled
+          topology_spread_constraints  = var.topology_spread_constraints
+          node_fit                     = var.node_fit
+          max_pods_to_evict_per_node   = var.max_pods_to_evict_per_node
           service_monitor_enabled      = var.service_monitor_enabled
           service_monitor_namespace    = var.service_monitor_namespace
         }
