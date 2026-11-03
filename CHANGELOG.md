@@ -12,6 +12,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 [Compare with previous version](https://github.com/sparkfabrik/terraform-helm-descheduler/compare/0.3.0...0.4.0)
 
+> ⚠️ **Breaking change.** This release requires descheduler chart 0.27.0 or later. Set `chart_version` to 0.27.0 or later, or leave the new default 0.35.1, before you upgrade.
+
 ### Added
 
 - Add `topology_spread_constraints` variable to balance `ScheduleAnyway` topology spread constraints too.
@@ -20,7 +22,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
-- **Breaking:** render the descheduler policy with the `descheduler/v1alpha2` API, required by descheduler 0.31.0 and later. The module now requires chart 0.27.0 or later.
+- ⚠️ **Breaking:** render the descheduler policy with the `descheduler/v1alpha2` API, required by descheduler 0.31.0 and later.
 - Update the default chart version to 0.35.1. Chart 0.35.1 also sets default resource limits (500m CPU, 256Mi memory).
 - Keep the previous eviction protections: pods with local storage stay protected and pods with PVCs stay evictable, unlike the chart 0.35.1 defaults.
 
